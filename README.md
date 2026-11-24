@@ -18,4 +18,4 @@ Hela projektet finns i **Stig-iPhone-projekt.zip**, inklusive Swift-filer, Xcode
 
 Nedför summerar alla nedförsdelar. Fallhöjd är högsta minus lägsta utjämnade höjd. Maxhastighet är högsta GPS-snitt över minst fem sekunder; mätsträckan och en markör visas på kartan.
 
-En grön byggning visar att kompilering och simulatorns tester lyckades. Verklig GPS, låst skärm och batteriförbrukning måste provas på en fysisk iPhone. Svep inte bort Stig från appväxlaren under en tur. Säkerhetskopiera viktiga turer med GPX.
+En grön byggning visar att kompilering och modelltesterna lyckades. Verklig GPS, låst skärm och batteriförbrukning måste provas på en fysisk iPhone. Svep inte bort Stig från appväxlaren under en tur. Säkerhetskopiera viktiga turer med GPX.
