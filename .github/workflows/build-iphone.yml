@@ -1,0 +1,51 @@
+name: Bygg Stig för iPhone
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'Stig-iPhone-projekt.zip'
+      - '.github/workflows/build-iphone.yml'
+permissions:
+  contents: read
+concurrency:
+  group: stig-iphone-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: Stig-iPhone
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Packa upp källkoden
+        working-directory: .
+        run: unzip -q Stig-iPhone-projekt.zip
+      - name: Kontrollera projektet
+        run: python3 scripts/validate-project.py
+      - name: Kör iPhone-tester i simulator
+        run: bash scripts/test-ios.sh
+      - name: Bygg osignerad appfil
+        run: bash scripts/build-ipa.sh
+      - name: Hämta Stig till SideStore
+        uses: actions/upload-artifact@v6
+        with:
+          name: Stig-iPhone
+          path: Stig-iPhone/build/Stig.ipa
+          if-no-files-found: error
+          retention-days: 14
+      - name: Spara byggloggar
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: Stig-byggloggar
+          path: |
+            Stig-iPhone/build/*.log
+            Stig-iPhone/build/StigTests.xcresult
+          if-no-files-found: ignore
+          retention-days: 7
