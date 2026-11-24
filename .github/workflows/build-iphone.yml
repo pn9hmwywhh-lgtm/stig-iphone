@@ -28,8 +28,11 @@ jobs:
         run: unzip -q Stig-iPhone-projekt.zip
       - name: Kontrollera projektet
         run: python3 scripts/validate-project.py
-      - name: Kör iPhone-tester i simulator
-        run: bash scripts/test-ios.sh
+      - name: Kör modelltester
+        run: |
+          mkdir -p build
+          set -o pipefail
+          swift test --scratch-path build/model-tests 2>&1 | tee build/model-tests.log
       - name: Bygg osignerad appfil
         run: bash scripts/build-ipa.sh
       - name: Hämta Stig till SideStore
